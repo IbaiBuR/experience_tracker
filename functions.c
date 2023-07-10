@@ -33,6 +33,22 @@ void delete_depth0_entries(FILE *experience, FILE *destination)
 
 }
 
+void defrag_min_depth(FILE *experience, FILE *destination, unsigned depth)
+{
+    BL_EXP_ENTRY exp_data;
+
+    while(fread(&exp_data, sizeof(BL_EXP_ENTRY), 1, experience))
+    {
+        if(exp_data.depth > depth)
+        {
+          fwrite(&exp_data, sizeof(BL_EXP_ENTRY), 1, destination);      
+        }
+    }
+
+    rewind(experience);
+    rewind(destination);
+}
+
 char *  move_from_decimal(int32_t move)
 {
     MOVE converted;

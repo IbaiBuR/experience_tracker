@@ -17,8 +17,9 @@
    unsigned second_letter : 3;
  }MOVE;
 
- //Both of this functions write all the experience entries to a human readable format into a txt file
- void write_BLexp_entry_toTxTFile(FILE *, FILE *); 
- void delete_depth0_entries(FILE *, FILE *);
- char *  move_from_decimal(int32_t);
+ 
+ void write_BLexp_entry_toTxTFile(FILE *, FILE *); //Writes experience entries in a txt file with a human-readable format
+ void delete_depth0_entries(FILE *, FILE *); //Deletes all the depth 0 entries  
+ void defrag_min_depth(FILE *, FILE *, unsigned); //Deletes the entries that have a depth lower than the specified one
+ char *  move_from_decimal(int32_t); //Converts a move from decimal format to string format
 #endif

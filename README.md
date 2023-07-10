@@ -18,8 +18,8 @@ So, each experience entry has a size of 24 bytes (192 bits)
 
 Its basic use is:
 
-- ./experience_tracker experience.bin (for Linux)
-- experience_tracker.exe experience.bin (for Windows)
+- ./experience_tracker experience.exp (for Linux)
+- experience_tracker.exe experience.exp (for Windows)
 
 # What does it do
 
@@ -40,5 +40,5 @@ Key: 57de86fd, Move: f2c5, Score: 162, Depth: 32, Performance: 100
 # To-Do
 
 - [x] Defrag the experience file
-- [ ] Defrag with specific minimum depth
+- [X] Defrag with specific minimum depth
 - [ ] Show experience entries for most common openings

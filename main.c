@@ -10,6 +10,8 @@ int main(int argc, char *argv[])
     FILE *BL_exp, *exp_fixed, *output_fixed, *BrainLearn_readable;
     const char *dirname = "readable_exp";
     DIR *readable_exp = opendir(dirname);
+    char resp;
+    unsigned depth;
 
     if(readable_exp)
     {
@@ -17,7 +19,7 @@ int main(int argc, char *argv[])
     }
     else
     {
-        mkdir("./readable_exp", S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH); //directory does not exist so we create it...
+        mkdir("./readable_exp", S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH); //directory does not exist so we create it... NOTE: For Windows compilers this function is a bit different
     }
 
     if(argc < 2)
@@ -38,7 +40,7 @@ int main(int argc, char *argv[])
         return 3;
     }
 
-    if(!(exp_fixed = fopen("experience_fixed.bin", "wb")))
+    if(!(exp_fixed = fopen("experience_fixed.exp", "wb")))
     {
         printf("Could not open experience file to fix...\n");
         return 4;
@@ -51,11 +53,28 @@ int main(int argc, char *argv[])
     }
 
     write_BLexp_entry_toTxTFile(BL_exp, BrainLearn_readable);
-    delete_depth0_entries(BL_exp, exp_fixed);
+
+    printf("Do you want to defrag with an specific depth? (s/N)");
+    scanf("%c", &resp);
+
+    if(resp == 's' || resp == 'S')
+    {
+        printf("\nEnter the depth to defrag with: ");
+        fflush(stdin);
+        scanf("%d", &depth);
+        defrag_min_depth(BL_exp, exp_fixed, depth);
+
+    }
+
+    else
+    {
+        delete_depth0_entries(BL_exp, exp_fixed); //If the user does not specify a depth, we delete all the depth 0 entries
+    }
+
 
     fclose(exp_fixed);
 
-    if(!(exp_fixed = fopen("experience_fixed.bin", "rb")))
+    if(!(exp_fixed = fopen("experience_fixed.exp", "rb")))
     {
       printf("Could not open fixed exp file to read...\n");
       return 6;
