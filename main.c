@@ -11,12 +11,11 @@ int main(int argc, char *argv[])
     FILE *BL_exp, *exp_fixed, *output_fixed, *BrainLearn_readable;
     struct stat st;
     unsigned depth;
-    char resp; // Declaration of the 'resp' variable
-
-    // Check if the 'readable_exp' directory exists, create it if not
+    char resp;
+    
     if (stat(READABLE_DIR, &st) != 0)
     {
-        // Directory does not exist, so create it
+        
         #ifdef _WIN32
         if (_mkdir(READABLE_DIR) != 0)
         #else
@@ -48,7 +47,7 @@ int main(int argc, char *argv[])
         return 2;
     }
 
-    // Open necessary files for writing and reading
+    // Open necessary files for writing
     BrainLearn_readable = fopen("./readable_exp/brainlearn.txt", "w");
     exp_fixed = fopen("experience_fixed.exp", "wb");
     output_fixed = fopen("./readable_exp/brainlearn_fixed.txt", "w");
