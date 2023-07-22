@@ -1,91 +1,94 @@
 #include <stdio.h>
-#include <string.h>
-#include <dirent.h>
-#include <sys/types.h>
+#include <direct.h>
 #include <sys/stat.h>
 #include "types.h"
+
+#define DEFAULT_FILENAME "experience.exp"
+#define READABLE_DIR "readable_exp"
 
 int main(int argc, char *argv[])
 {
     FILE *BL_exp, *exp_fixed, *output_fixed, *BrainLearn_readable;
-    const char *dirname = "readable_exp";
-    DIR *readable_exp = opendir(dirname);
-    char resp;
+    struct stat st;
     unsigned depth;
+    char resp; // Declaration of the 'resp' variable
 
-    if(readable_exp)
+    // Check if the 'readable_exp' directory exists, create it if not
+    if (stat(READABLE_DIR, &st) != 0)
     {
-        closedir(readable_exp); //directory already exists
-    }
-    else
-    {
-        mkdir("./readable_exp", S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH); //directory does not exist so we create it... NOTE: For Windows compilers this function is a bit different
+        // Directory does not exist, so create it
+        #ifdef _WIN32
+        if (_mkdir(READABLE_DIR) != 0)
+        #else
+        if (mkdir(READABLE_DIR, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH) != 0)
+        #endif
+        {
+            printf("Could not create the directory...\n");
+            return 1;
+        }
     }
 
-    if(argc < 2)
+    // Determine the filename to open based on the provided argument or use the default 'experience.exp'
+    const char* experience_filename = (argc >= 2) ? argv[1] : DEFAULT_FILENAME;
+
+    // Check if the default 'experience.exp' file is used
+    if (strcmp(experience_filename, DEFAULT_FILENAME) == 0)
     {
-        printf("Incorrect number of parameters...\n");
-        return 1;
+        printf("Using default experience.exp\n");
     }
-    
-    if(!(BL_exp = fopen(argv[1], "rb")))
+
+    // Open the BrainLearn experience file for reading
+    if (!(BL_exp = fopen(experience_filename, "rb")))
     {
-        printf("Could not open the BrainLearn experience file...\n");
+        printf("Could not open the BrainLearn experience file '%s'...\n", experience_filename);
+        if (strcmp(experience_filename, DEFAULT_FILENAME) == 0)
+        {
+            printf("Make sure the default 'experience.exp' file exists in the current directory.\n");
+        }
         return 2;
     }
 
-    if(!(BrainLearn_readable = fopen("./readable_exp/brainlearn.txt", "w")))
-    {
-        printf("Could not open brainlearn txt file to write...\n");
-        return 3;
-    }
+    // Open necessary files for writing and reading
+    BrainLearn_readable = fopen("./readable_exp/brainlearn.txt", "w");
+    exp_fixed = fopen("experience_fixed.exp", "wb");
+    output_fixed = fopen("./readable_exp/brainlearn_fixed.txt", "w");
 
-    if(!(exp_fixed = fopen("experience_fixed.exp", "wb")))
-    {
-        printf("Could not open experience file to fix...\n");
-        return 4;
-    }
-
-    if(!(output_fixed = fopen("./readable_exp/brainlearn_fixed.txt", "w")))
-    {
-        printf("Could not open brainlearn fixed txt file to write...\n");
-        return 5;
-    }
-
+    // Convert the binary BrainLearn experience to readable format and write it to 'brainlearn.txt'
     write_BLexp_entry_toTxTFile(BL_exp, BrainLearn_readable);
 
-    printf("Do you want to defrag with an specific depth? (s/N)");
-    scanf("%c", &resp);
+    // Prompt the user for defragmentation with a specific depth
+    printf("Do you want to defrag with a specific depth? (y/N)");
+    scanf(" %c", &resp);
 
-    if(resp == 's' || resp == 'S')
+    // Perform defragmentation with a specified depth if the user chooses to
+    if (resp == 'y' || resp == 'Y')
     {
         printf("\nEnter the depth to defrag with: ");
-        fflush(stdin);
-        scanf("%d", &depth);
+        scanf("%u", &depth);
         defrag_min_depth(BL_exp, exp_fixed, depth);
-
     }
-
     else
     {
-        delete_depth0_entries(BL_exp, exp_fixed); //If the user does not specify a depth, we delete all the depth 0 entries
+        // If the user does not specify a depth, delete all the depth 0 entries
+        delete_depth0_entries(BL_exp, exp_fixed);
     }
 
-
+    // Close the fixed experience file and reopen it for reading
     fclose(exp_fixed);
-
-    if(!(exp_fixed = fopen("experience_fixed.exp", "rb")))
+    if (!(exp_fixed = fopen("experience_fixed.exp", "rb")))
     {
-      printf("Could not open fixed exp file to read...\n");
-      return 6;
+        printf("Could not open fixed exp file to read...\n");
+        return 6;
     }
-    
+
+    // Convert the fixed binary experience to readable format and write it to 'brainlearn_fixed.txt'
     write_BLexp_entry_toTxTFile(exp_fixed, output_fixed);
 
+    // Close all the open files
     fclose(BL_exp);
     fclose(BrainLearn_readable);
     fclose(exp_fixed);
     fclose(output_fixed);
-    
+
     return 0;
 }
