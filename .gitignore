@@ -1,0 +1,5 @@
+*.exp 
+*.bin
+
+/experience_tracker
+readable_exp/*.txt

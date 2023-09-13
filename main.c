@@ -1,7 +1,13 @@
 #include <stdio.h>
-#include <direct.h>
-#include <sys/stat.h>
+#include <string.h>
 #include "types.h"
+
+#ifdef _WIN32
+ #include <direct.h>
+#else
+ #include <sys/stat.h>
+ #include <dirent.h>
+#endif
 
 #define DEFAULT_FILENAME "experience.exp"
 #define READABLE_DIR "readable_exp"
@@ -56,7 +62,7 @@ int main(int argc, char *argv[])
     write_BLexp_entry_toTxTFile(BL_exp, BrainLearn_readable);
 
     // Prompt the user for defragmentation with a specific depth
-    printf("Do you want to defrag with a specific depth? (y/N)");
+    printf("Do you want to defrag with a specific depth? (y/N): ");
     scanf(" %c", &resp);
 
     // Perform defragmentation with a specified depth if the user chooses to
