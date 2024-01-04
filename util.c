@@ -14,7 +14,6 @@ char *move_from_decimal(int32_t move, char *result)
     converted.second_rank = (move >> 3) & masc;
     converted.second_letter = move & masc;
 
-
     sprintf(result, "%c%d%c%d", 'a' + converted.first_letter, converted.first_rank + 1, 'a' + converted.second_letter,
             converted.second_rank + 1);
 
