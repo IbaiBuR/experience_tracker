@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <string.h>
-#include "types.h"
 
 #ifdef _WIN32
 #include <direct.h>
@@ -10,6 +9,9 @@
 #include <dirent.h>
 
 #endif
+
+#include "experience.h"
+#include "types.h"
 
 int main(int argc, char *argv[])
 {
@@ -70,7 +72,8 @@ int main(int argc, char *argv[])
         defrag_min_depth(BL_exp, exp_fixed, depth);
     }
     else
-        delete_depth0_entries(BL_exp, exp_fixed); // If the user does not specify a depth, delete all the depth 0 entries
+        delete_depth0_entries(BL_exp,
+                              exp_fixed); // If the user does not specify a depth, delete all the depth 0 entries
 
     // Close the fixed experience file and reopen it for reading
     fclose(exp_fixed);
