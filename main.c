@@ -3,10 +3,12 @@
 #include "types.h"
 
 #ifdef _WIN32
- #include <direct.h>
+#include <direct.h>
 #else
- #include <sys/stat.h>
- #include <dirent.h>
+
+#include <sys/stat.h>
+#include <dirent.h>
+
 #endif
 
 #define DEFAULT_FILENAME "experience.exp"
@@ -18,15 +20,15 @@ int main(int argc, char *argv[])
     struct stat st;
     unsigned depth;
     char resp;
-    
+
     if (stat(READABLE_DIR, &st) != 0)
     {
-        
-        #ifdef _WIN32
+
+#ifdef _WIN32
         if (_mkdir(READABLE_DIR) != 0)
-        #else
+#else
         if (mkdir(READABLE_DIR, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH) != 0)
-        #endif
+#endif
         {
             printf("Could not create the directory...\n");
             return 1;
@@ -34,7 +36,7 @@ int main(int argc, char *argv[])
     }
 
     // Determine the filename to open based on the provided argument or use the default 'experience.exp'
-    const char* experience_filename = (argc >= 2) ? argv[1] : DEFAULT_FILENAME;
+    const char *experience_filename = (argc >= 2) ? argv[1] : DEFAULT_FILENAME;
 
     // Check if the default 'experience.exp' file is used
     if (strcmp(experience_filename, DEFAULT_FILENAME) == 0)
