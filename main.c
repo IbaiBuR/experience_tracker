@@ -11,9 +11,6 @@
 
 #endif
 
-#define DEFAULT_FILENAME "experience.exp"
-#define READABLE_DIR "readable_exp"
-
 int main(int argc, char *argv[])
 {
     FILE *BL_exp, *exp_fixed, *output_fixed, *BrainLearn_readable;
@@ -40,9 +37,7 @@ int main(int argc, char *argv[])
 
     // Check if the default 'experience.exp' file is used
     if (strcmp(experience_filename, DEFAULT_FILENAME) == 0)
-    {
         printf("Using default experience.exp\n");
-    }
 
     // Open the BrainLearn experience file for reading
     if (!(BL_exp = fopen(experience_filename, "rb")))
@@ -75,10 +70,7 @@ int main(int argc, char *argv[])
         defrag_min_depth(BL_exp, exp_fixed, depth);
     }
     else
-    {
-        // If the user does not specify a depth, delete all the depth 0 entries
-        delete_depth0_entries(BL_exp, exp_fixed);
-    }
+        delete_depth0_entries(BL_exp, exp_fixed); // If the user does not specify a depth, delete all the depth 0 entries
 
     // Close the fixed experience file and reopen it for reading
     fclose(exp_fixed);

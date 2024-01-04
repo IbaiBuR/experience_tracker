@@ -3,7 +3,8 @@
 
 #include <stdint.h>
 
-#define SIZE_READ 512
+#define DEFAULT_FILENAME "experience.exp"
+#define READABLE_DIR "readable_exp"
 
 typedef struct BL_EXP_ENTRY
 {
