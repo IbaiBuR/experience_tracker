@@ -23,7 +23,7 @@ Its basic use is:
 
 # What does it do
 
-For now, it converts part of the experience data to readable format, and it removes all the depth 0 entries in the experience file.
+For now, it converts part of the experience data to readable format, and it removes all the depth <= 4 entries in the experience file.
 
 ## Sample output
 
