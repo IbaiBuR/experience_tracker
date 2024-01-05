@@ -22,11 +22,9 @@ void processBLExp(FILE *experience, FILE *txt, FILE *output, unsigned depthLimit
         if (exp_data.depth > depthLimit)
             fwrite(&exp_data, sizeof(BL_EXP_ENTRY), 1, output);
 
-        // Export experience data
-        fprintf(txt, "Key: %-16lX, Move: %-5s, Score: %-8s, Depth: %-3d, Performance: %d\n",
+        fprintf(txt, "Key: %-16" PRIX64 ", Move: %-5s, Score: %-8s, Depth: %-3d, Performance: %d\n",
                 exp_data.key, moveToString(exp_data.move, moveResult), scoreToString(exp_data.score, scoreResult),
-                exp_data.depth,
-                exp_data.performance);
+                exp_data.depth, exp_data.performance);
     }
 }
 
@@ -45,8 +43,7 @@ void processSGV2Exp(FILE *experience, FILE *txt, FILE *output, unsigned depthLim
         if (exp_data.depth > depthLimit)
             fwrite(&exp_data, sizeof(SG_V2_EXP_ENTRY), 1, output);
 
-        // Export experience data
-        fprintf(txt, "Key: %-16lX, Move: %-5s, Score: %-8s, Depth: %-3d, Count: %" PRIu16 "\n",
+        fprintf(txt, "Key: %-16" PRIX64 ", Move: %-5s, Score: %-8s, Depth: %-3d, Count: %" PRIu16 "\n",
                 exp_data.key, moveToString(exp_data.move, moveResult),
                 scoreToString(exp_data.score, scoreResult),
                 exp_data.depth,
