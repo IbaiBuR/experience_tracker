@@ -18,8 +18,14 @@ So, each experience entry has a size of 24 bytes (192 bits).
 
 Its basic use is:
 
-- ./experience_tracker experience.exp (for Linux)
-- experience_tracker.exe experience.exp (for Windows)
+## UNIX-Like Systems
+```bash
+./experience_tracker <path_to_your_experience_file> (optional) default = experience.exp
+```
+## Windows
+```commandline
+experience_tracker.exe <path_to_your_experience_file> (optional) default = experience.exp
+```
 
 # What does it do
 
