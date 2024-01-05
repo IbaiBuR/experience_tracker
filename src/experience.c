@@ -23,7 +23,7 @@ void processBLExp(FILE *experience, FILE *txt, FILE *output, unsigned depthLimit
             fwrite(&exp_data, sizeof(BL_EXP_ENTRY), 1, output);
 
         // Export experience data
-        fprintf(txt, "Key: %-16lX, Move: %-5s, Score: %-6s, Depth: %-3d, Performance: %d\n",
+        fprintf(txt, "Key: %-16lX, Move: %-5s, Score: %-8s, Depth: %-3d, Performance: %d\n",
                 exp_data.key, moveToString(exp_data.move, moveResult), scoreToString(exp_data.score, scoreResult),
                 exp_data.depth,
                 exp_data.performance);
