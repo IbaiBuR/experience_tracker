@@ -6,6 +6,7 @@
 #include <string.h>
 
 #include "util.h"
+#include "types.h"
 
 // Experience V2 default signature
 const char *expV2Signature = "SugaR Experience version 2";
@@ -13,8 +14,8 @@ const char *expV2Signature = "SugaR Experience version 2";
 void processBLExp(FILE *experience, FILE *txt, FILE *output, unsigned depthLimit)
 {
     BL_EXP_ENTRY exp_data;
-    char moveResult[16];
-    char scoreResult[16];
+    char moveResult[RESULT_LENGTH];
+    char scoreResult[RESULT_LENGTH];
 
     while (fread(&exp_data, sizeof(BL_EXP_ENTRY), 1, experience))
     {
@@ -31,8 +32,8 @@ void processBLExp(FILE *experience, FILE *txt, FILE *output, unsigned depthLimit
 void processSGV2Exp(FILE *experience, FILE *txt, FILE *output, unsigned depthLimit)
 {
     SG_V2_EXP_ENTRY exp_data;
-    char moveResult[16];
-    char scoreResult[16];
+    char moveResult[RESULT_LENGTH];
+    char scoreResult[RESULT_LENGTH];
 
     // Skip the expV2 signature
     fseek(experience, strlen(expV2Signature), SEEK_SET);

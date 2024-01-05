@@ -11,6 +11,6 @@ static const int PAWN_VALUE_NORMALIZATION = 328;
 
 char *moveToString(int32_t, char *); // Converts a move from int format to string format
 char *scoreToString(int32_t, char *); // Converts a score from int format to string format
-int32_t toCentipawns(int32_t); // Scales the score to centipawns
+int32_t toCP(int32_t); // Scales the score to centipawns
 
 #endif //UTIL_H

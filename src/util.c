@@ -25,7 +25,7 @@ char *scoreToString(int32_t score, char *result)
 {
 
     if (abs(score) < VALUE_TB_WIN_IN_MAX_PLY)
-        sprintf(result, "%-6d%s", toCentipawns(score), "cp");
+        sprintf(result, "%-6d%s", toCP(score), "cp");
     else if (abs(score) <= VALUE_TB)
     {
         const int ply = VALUE_TB - 1 - abs(score);
@@ -37,7 +37,7 @@ char *scoreToString(int32_t score, char *result)
     return result;
 }
 
-int32_t toCentipawns(int32_t score)
+int32_t toCP(int32_t score)
 {
     return 100 * score / PAWN_VALUE_NORMALIZATION;
 }
