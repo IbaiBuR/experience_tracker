@@ -1,10 +1,12 @@
 #include "util.h"
 
+#include <assert.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 #include "types.h"
 
-char *move_from_decimal(int32_t move, char *result)
+char *moveToString(int32_t move, char *result)
 {
     MOVE converted;
     unsigned masc = 7;
@@ -20,12 +22,24 @@ char *move_from_decimal(int32_t move, char *result)
     return result;
 }
 
-uint64_t reverseBytes(uint64_t num)
+char *scoreToString(int32_t score, char *result)
 {
-    uint64_t result = 0;
-    for (int i = 0; i < sizeof(uint64_t); i++)
+    assert(-VALUE_INFINITE < score && score < VALUE_INFINITE);
+
+    if (abs(score) < VALUE_TB_WIN_IN_MAX_PLY)
+        sprintf(result, "%-6d%s", toCentipawns(score), "cp");
+    else if (abs(score) <= VALUE_TB)
     {
-        result = (result << 8) | ((num >> (i * 8)) & 0xFF);
+        const int ply = VALUE_TB - 1 - abs(score);
+        sprintf(result, "%-6d%s", score > 0 ? 20000 - ply : -20000 + ply, "cp");
     }
+    else
+        sprintf(result, "%s%-6d", "mate in", (score > 0 ? VALUE_MATE - score + 1 : -VALUE_MATE - score) / 2);
+
     return result;
+}
+
+int32_t toCentipawns(int32_t score)
+{
+    return 100 * score / PAWN_VALUE_NORMALIZATION;
 }

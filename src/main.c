@@ -17,10 +17,11 @@
 
 int main(int argc, char *argv[])
 {
-    FILE *BL_exp, *exp_fixed, *readable_exp;
+    FILE *experience, *exp_fixed, *readable_exp;
     struct stat st;
     unsigned depth;
     char resp;
+    bool signatureFound;
     initscr();
 
     addstr("Initializing...\n");
@@ -54,7 +55,7 @@ int main(int argc, char *argv[])
     addstr("Preparing experience data...\n");
     refresh();
 
-    if (!(BL_exp = fopen(experience_filename, "rb")))
+    if (!(experience = fopen(experience_filename, "rb")))
     {
         printw("Could not open the BrainLearn experience file '%s' (Error: %d - %s)...\n",
                experience_filename, errno, strerror(errno));
@@ -82,6 +83,20 @@ int main(int argc, char *argv[])
         return 4;
     }
 
+    addstr("Checking for V2 signature...\n");
+    signatureFound = detectSignature(experience);
+
+    if (signatureFound)
+    {
+        addstr("Signature found!\n");
+        refresh();
+    }
+    else
+    {
+        addstr("Signature not found, detected BrainLearn experience format.\n");
+        refresh();
+    }
+
     // Prompt the user for defragmentation with a specific depth
     printw("Do you want to defrag with a specific depth? (y/N): ");
     refresh();
@@ -92,19 +107,24 @@ int main(int argc, char *argv[])
     {
         printw("\nEnter the minimum depth to defrag with: ");
         scanw("%u", &depth);
-        addstr("Processing experience data with specific minimum depth to defrag...\n");
+        addstr("\nProcessing experience data with specific minimum depth to defrag...\n");
         refresh();
-        processBLExp(BL_exp, readable_exp, exp_fixed, depth);
+        signatureFound ? processSGV2Exp(experience, readable_exp, exp_fixed, depth) : processBLExp(experience,
+                                                                                                   readable_exp,
+                                                                                                   exp_fixed, depth);
     }
     else
     {
-        addstr("Processing experience data with default depth 0 to defrag...\n");
+        addstr("\nProcessing experience data with default depth 4 to defrag...\n");
         refresh();
-        processBLExp(BL_exp, readable_exp, exp_fixed, 0);
+        signatureFound ? processSGV2Exp(experience, readable_exp, exp_fixed, MINIMUM_DEPTH) : processBLExp(experience,
+                                                                                                           readable_exp,
+                                                                                                           exp_fixed,
+                                                                                                           MINIMUM_DEPTH);
     }
 
     // Close all the open files
-    fclose(BL_exp);
+    fclose(experience);
     fclose(readable_exp);
     fclose(exp_fixed);
 

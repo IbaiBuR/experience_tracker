@@ -5,6 +5,7 @@
 
 #define DEFAULT_FILENAME "experience.exp"
 #define READABLE_DIR "readable_exp"
+#define MINIMUM_DEPTH 4
 
 typedef struct MOVE
 {
