@@ -12,9 +12,9 @@ void processBLExp(FILE *experience, FILE *txt, FILE *output, unsigned depthLimit
     while (fread(&exp_data, sizeof(BL_EXP_ENTRY), 1, experience))
     {
         if (exp_data.depth > depthLimit)
-            fwrite(&experience, sizeof(BL_EXP_ENTRY), 1, output);
+            fwrite(&exp_data, sizeof(BL_EXP_ENTRY), 1, output);
 
-        fprintf(txt, "Key: %-20lx, Move: %-5s, Score: %-5d, Depth: %-5d, Performance: %-5d\n",
+        fprintf(txt, "Key: %-16lx, Move: %-5s, Score: %-5d, Depth: %-5d, Performance: %-5d\n",
                 exp_data.key, move_from_decimal(exp_data.move, result), exp_data.score, exp_data.depth,
                 exp_data.performance);
     }

@@ -3,6 +3,8 @@ project(experience_tracker C)
 
 set(CMAKE_C_STANDARD 11)
 
+find_package(Curses REQUIRED)
+
 include_directories(.)
 
 add_executable(experience_tracker
@@ -12,3 +14,6 @@ add_executable(experience_tracker
         src/experience.h
         src/util.h
         src/util.c)
+
+target_link_libraries(experience_tracker ${CURSES_LIBRARIES})
+target_include_directories(experience_tracker PRIVATE ${CURSES_INCLUDE_DIRS})

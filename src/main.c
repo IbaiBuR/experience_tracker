@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <errno.h>
 
 #ifdef _WIN32
 #include <direct.h>
@@ -35,6 +36,7 @@ int main(int argc, char *argv[])
 #endif
         {
             printw("Could not create the directory...\n");
+            refresh();
             return 1;
         }
     }
@@ -49,31 +51,44 @@ int main(int argc, char *argv[])
     addstr("Preparing experience data...\n");
     refresh();
 
-    // Open the BrainLearn experience file for reading
     if (!(BL_exp = fopen(experience_filename, "rb")))
     {
-        printw("Could not open the BrainLearn experience file '%s'...\n", experience_filename);
+        printw("Could not open the BrainLearn experience file '%s' (Error: %d - %s)...\n",
+               experience_filename, errno, strerror(errno));
+        refresh();
 
         if (strcmp(experience_filename, DEFAULT_FILENAME) == 0)
             printw("Make sure the default 'experience.exp' file exists in the current directory.\n");
+        refresh();
 
         return 2;
     }
 
     // Open necessary files for writing
-    readable_exp = fopen("./readable_exp/experience.txt", "w");
-    exp_fixed = fopen("experience_fixed.exp", "wb");
+    if (!(readable_exp = fopen("./readable_exp/experience.txt", "w")))
+    {
+        printw("Could not create the readable text file.\n");
+        refresh();
+        return 3;
+    }
+
+    if (!(exp_fixed = fopen("experience_fixed.exp", "wb")))
+    {
+        printw("Could not create the fixed experience file.\n");
+        refresh();
+        return 4;
+    }
 
     // Prompt the user for defragmentation with a specific depth
     printw("Do you want to defrag with a specific depth? (y/N): ");
-    scanf(" %c", &resp);
+    refresh();
+    resp = getch();
 
     // Perform defragmentation with a specified depth if the user chooses to
     if (resp == 'y' || resp == 'Y')
     {
         printw("\nEnter the minimum depth to defrag with: ");
-        fflush(stdin);
-        scanf("%u", &depth);
+        scanw("%u", &depth);
         addstr("Processing experience data with specific minimum depth to defrag...\n");
         refresh();
         processBLExp(BL_exp, readable_exp, exp_fixed, depth);
@@ -83,15 +98,6 @@ int main(int argc, char *argv[])
         addstr("Processing experience data with default depth 0 to defrag...\n");
         refresh();
         processBLExp(BL_exp, readable_exp, exp_fixed, 0);
-    }
-
-    // Close the fixed experience file and reopen it for reading
-    fclose(exp_fixed);
-
-    if (!(exp_fixed = fopen("experience_fixed.exp", "rb")))
-    {
-        printw("Could not open fixed exp file to read...\n");
-        return 3;
     }
 
     // Close all the open files

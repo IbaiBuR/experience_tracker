@@ -18,4 +18,4 @@ util.o: util.c
 
 .PHONY: clean
 clean:
-	rm -rf *.o /readable_exp
+	rm -rf *.o readable_exp/
