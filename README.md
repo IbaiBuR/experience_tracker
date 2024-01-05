@@ -12,7 +12,7 @@ For both [BrainLearn](https://github.com/amchess/BrainLearn), [ShashChess](https
   - Score, Depth, Move and Performance in the case of BrainLearn and ShashChess
   - Score, Depth, Move and Count in the case of Eman
 
-So, each experience entry has a size of 24 bytes (192 bits)
+So, each experience entry has a size of 24 bytes (192 bits).
 
 # How to use it?
 
@@ -23,18 +23,18 @@ Its basic use is:
 
 # What does it do
 
-For now, it converts part of the experience data to readable format and it removes all the depth 0 entries in the experience file
+For now, it converts part of the experience data to readable format, and it removes all the depth 0 entries in the experience file.
 
 ## Example
 
-This is some sample output for the tool
+This is some sample output for the tool (which as of now only handles BrainLearn-like experience files)
 
 ```
-Key: 537202e6, Move: a5b5, Score: -1, Depth: 54, Performance: 100
-Key: be03c7e3, Move: c8c5, Score: -47, Depth: 25, Performance: 100
-Key: 5b93aa11, Move: f6g5, Score: -8, Depth: 34, Performance: 100
-Key: f53d4941, Move: e6e5, Score: -15, Depth: 31, Performance: 100
-Key: 57de86fd, Move: f2c5, Score: 162, Depth: 32, Performance: 100
+Key: 8DD6190269E07728, Move: f1b1 , Score: 508   cp, Depth: 26 , Performance: 100
+Key: 3E0F662B9F837A61, Move: g2g3 , Score: 422   cp, Depth: 21 , Performance: 100
+Key: CDBB4A73E4F0F53 , Move: b1f1 , Score: 406   cp, Depth: 20 , Performance: 100
+Key: 3E6721CB79696F37, Move: d2g2 , Score: 417   cp, Depth: 21 , Performance: 100
+Key: 3E6721CB79696F37, Move: f8f7 , Score: 387   cp, Depth: 26 , Performance: 100
 ```
 
 # To-Do
