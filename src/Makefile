@@ -5,7 +5,7 @@ LDFLAGS = -lncurses
 all: experience_tracker
 
 experience_tracker: main.o experience.o util.o
-	$(CC) -o training_manager main.o unified_dashboard.o config.o external/ini.o engine.o $(LDFLAGS)
+	$(CC) -o experience_tracker main.o experience.o util.o $(LDFLAGS)
 
 main.o: main.c
 	$(CC) $(CFLAGS) -c main.c
