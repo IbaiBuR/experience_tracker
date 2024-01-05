@@ -5,12 +5,6 @@
 #include <stdio.h>
 #include <stdint.h>
 
-enum ExperienceMode
-{
-    BrainLearn,
-    SugarV2
-};
-
 typedef struct BL_EXP_ENTRY
 {
     uint64_t key;
