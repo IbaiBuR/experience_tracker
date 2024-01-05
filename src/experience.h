@@ -18,6 +18,7 @@ typedef struct SG_V2_EXP_ENTRY
     __attribute__((unused)) uint8_t padding[2];
 } SG_V2_EXP_ENTRY;
 
-void processBLExp(FILE *, FILE *, FILE *, unsigned); // Defrag and export experience data
+void processBLExp(FILE *, FILE *, FILE *, unsigned); // Defrag and export BrainLearn-like experience data
+void processSGV2Exp(FILE *, FILE *, FILE *, unsigned); // Defrag and export SugarV2-like experience data
 
 #endif //EXPERIENCE_H

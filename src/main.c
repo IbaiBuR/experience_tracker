@@ -46,7 +46,10 @@ int main(int argc, char *argv[])
 
     // Check if the default 'experience.exp' file is used
     if (strcmp(experience_filename, DEFAULT_FILENAME) == 0)
+    {
         printw("Using default filename experience.exp\n");
+        refresh();
+    }
 
     addstr("Preparing experience data...\n");
     refresh();

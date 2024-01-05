@@ -19,3 +19,13 @@ char *move_from_decimal(int32_t move, char *result)
 
     return result;
 }
+
+uint64_t reverseBytes(uint64_t num)
+{
+    uint64_t result = 0;
+    for (int i = 0; i < sizeof(uint64_t); i++)
+    {
+        result = (result << 8) | ((num >> (i * 8)) & 0xFF);
+    }
+    return result;
+}
