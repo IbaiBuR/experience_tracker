@@ -1,6 +1,5 @@
 #include "util.h"
 
-#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -24,7 +23,6 @@ char *moveToString(int32_t move, char *result)
 
 char *scoreToString(int32_t score, char *result)
 {
-    assert(-VALUE_INFINITE < score && score < VALUE_INFINITE);
 
     if (abs(score) < VALUE_TB_WIN_IN_MAX_PLY)
         sprintf(result, "%-6d%s", toCentipawns(score), "cp");
@@ -34,7 +32,7 @@ char *scoreToString(int32_t score, char *result)
         sprintf(result, "%-6d%s", score > 0 ? 20000 - ply : -20000 + ply, "cp");
     }
     else
-        sprintf(result, "%s%-6d", "mate in", (score > 0 ? VALUE_MATE - score + 1 : -VALUE_MATE - score) / 2);
+        sprintf(result, "%s%-6d", "M", (score > 0 ? VALUE_MATE - score + 1 : -VALUE_MATE - score) / 2);
 
     return result;
 }

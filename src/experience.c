@@ -46,7 +46,7 @@ void processSGV2Exp(FILE *experience, FILE *txt, FILE *output, unsigned depthLim
             fwrite(&exp_data, sizeof(SG_V2_EXP_ENTRY), 1, output);
 
         // Export experience data
-        fprintf(txt, "Key: %-16lX, Move: %-5s, Score: %-6s, Depth: %-3d, Count: %" PRIu16 "\n",
+        fprintf(txt, "Key: %-16lX, Move: %-5s, Score: %-8s, Depth: %-3d, Count: %" PRIu16 "\n",
                 exp_data.key, moveToString(exp_data.move, moveResult),
                 scoreToString(exp_data.score, scoreResult),
                 exp_data.depth,

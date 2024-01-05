@@ -5,7 +5,6 @@
 
 static const int MAX_PLY = 246;
 static const int VALUE_MATE = 32000;
-static const int VALUE_INFINITE = 32001;
 static const int VALUE_TB = (VALUE_MATE - MAX_PLY) - 1;
 static const int VALUE_TB_WIN_IN_MAX_PLY = VALUE_TB - MAX_PLY;
 static const int PAWN_VALUE_NORMALIZATION = 328;
