@@ -3,9 +3,11 @@
 
 #ifdef _WIN32
 #include <direct.h>
+#include <ncursesw/ncurses.h>
 #else
 
 #include <sys/stat.h>
+#include <ncurses.h>
 
 #endif
 
@@ -18,6 +20,10 @@ int main(int argc, char *argv[])
     struct stat st;
     unsigned depth;
     char resp;
+    initscr();
+
+    addstr("Initializing...\n");
+    refresh();
 
     if (stat(READABLE_DIR, &st) != 0)
     {
@@ -28,7 +34,7 @@ int main(int argc, char *argv[])
         if (mkdir(READABLE_DIR, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH) != 0)
 #endif
         {
-            printf("Could not create the directory...\n");
+            printw("Could not create the directory...\n");
             return 1;
         }
     }
@@ -38,15 +44,18 @@ int main(int argc, char *argv[])
 
     // Check if the default 'experience.exp' file is used
     if (strcmp(experience_filename, DEFAULT_FILENAME) == 0)
-        printf("Using default experience.exp\n");
+        printw("Using default filename experience.exp\n");
+
+    addstr("Preparing experience data...\n");
+    refresh();
 
     // Open the BrainLearn experience file for reading
     if (!(BL_exp = fopen(experience_filename, "rb")))
     {
-        printf("Could not open the BrainLearn experience file '%s'...\n", experience_filename);
+        printw("Could not open the BrainLearn experience file '%s'...\n", experience_filename);
 
         if (strcmp(experience_filename, DEFAULT_FILENAME) == 0)
-            printf("Make sure the default 'experience.exp' file exists in the current directory.\n");
+            printw("Make sure the default 'experience.exp' file exists in the current directory.\n");
 
         return 2;
     }
@@ -56,25 +65,32 @@ int main(int argc, char *argv[])
     exp_fixed = fopen("experience_fixed.exp", "wb");
 
     // Prompt the user for defragmentation with a specific depth
-    printf("Do you want to defrag with a specific depth? (y/N): ");
+    printw("Do you want to defrag with a specific depth? (y/N): ");
     scanf(" %c", &resp);
 
     // Perform defragmentation with a specified depth if the user chooses to
     if (resp == 'y' || resp == 'Y')
     {
-        printf("\nEnter the depth to defrag with: ");
+        printw("\nEnter the minimum depth to defrag with: ");
         fflush(stdin);
         scanf("%u", &depth);
+        addstr("Processing experience data with specific minimum depth to defrag...\n");
+        refresh();
         processBLExp(BL_exp, readable_exp, exp_fixed, depth);
     }
     else
+    {
+        addstr("Processing experience data with default depth 0 to defrag...\n");
+        refresh();
         processBLExp(BL_exp, readable_exp, exp_fixed, 0);
+    }
 
     // Close the fixed experience file and reopen it for reading
     fclose(exp_fixed);
+
     if (!(exp_fixed = fopen("experience_fixed.exp", "rb")))
     {
-        printf("Could not open fixed exp file to read...\n");
+        printw("Could not open fixed exp file to read...\n");
         return 3;
     }
 
@@ -82,6 +98,12 @@ int main(int argc, char *argv[])
     fclose(BL_exp);
     fclose(readable_exp);
     fclose(exp_fixed);
+
+    // Prompt the user to press a key and close ncurses window
+    addstr("Press any key too exit...\n");
+    refresh();
+    getch();
+    endwin();
 
     return 0;
 }
