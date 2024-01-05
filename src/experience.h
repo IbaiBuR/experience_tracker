@@ -10,6 +10,14 @@ typedef struct BL_EXP_ENTRY
     int32_t depth, score, move, performance;
 } BL_EXP_ENTRY;
 
+typedef struct SG_V2_EXP_ENTRY
+{
+    uint64_t key;
+    int32_t move, score, depth;
+    uint16_t count;
+    __attribute__((unused)) uint8_t padding[2];
+} SG_V2_EXP_ENTRY;
+
 void processBLExp(FILE *, FILE *, FILE *, unsigned); // Defrag and export experience data
 
 #endif //EXPERIENCE_H

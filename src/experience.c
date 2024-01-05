@@ -4,11 +4,13 @@
 
 #include "util.h"
 
+// Value to normalize / scale the scores to centipawns (PawnValue / 100)
+static const double scoreCPNormalization = 2.08;
+
 void processBLExp(FILE *experience, FILE *txt, FILE *output, unsigned depthLimit)
 {
     BL_EXP_ENTRY exp_data;
     char result[16];
-    static const double scoreCPNormalization = 2.08;
 
     while (fread(&exp_data, sizeof(BL_EXP_ENTRY), 1, experience))
     {
