@@ -88,12 +88,12 @@ int main(int argc, char *argv[])
 
     if (signatureFound)
     {
-        addstr("Signature found!\n");
+        addstr("Signature found, detected SugaR V2 experience file format.\n");
         refresh();
     }
     else
     {
-        addstr("Signature not found, detected BrainLearn experience format.\n");
+        addstr("Signature not found, detected BrainLearn experience file format.\n");
         refresh();
     }
 
